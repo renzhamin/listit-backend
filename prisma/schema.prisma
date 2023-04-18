@@ -16,6 +16,7 @@ model User {
     username      String         @unique
     password      String
     refreshTokens RefreshToken[]
+    lists         List[]
 }
 
 model RefreshToken {
@@ -24,4 +25,13 @@ model RefreshToken {
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String   @db.ObjectId
     createdAt   DateTime @default(now())
+}
+
+model List {
+    id      String  @id @default(auto()) @map("_id") @db.ObjectId
+    public  Boolean @default(false)
+    title   String
+    content Json
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId  String  @db.ObjectId
 }
