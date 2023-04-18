@@ -2,16 +2,21 @@ import jwt from "jsonwebtoken"
 import { tokenExistsInDb } from "../db/tokens"
 
 export const validateAccessToken = (accessToken: string) => {
-    let user: any = null
+    let result: any = null
     jwt.verify(
         accessToken,
         process.env.ACCESS_TOKEN_SECRET!,
         (err, decoded) => {
-            if (err) return null
-            user = decoded
+            if (err) {
+                result = {
+                    tokenError: err.name,
+                }
+            } else {
+                result = decoded
+            }
         }
     )
-    return user
+    return result
 }
 
 export const validateRefreshToken = async (refreshToken: string) => {
