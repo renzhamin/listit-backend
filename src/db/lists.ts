@@ -23,6 +23,23 @@ const getAllLists = (userId: string) => {
     })
 }
 
+const searchListbyTitle = (userId: string, searchString: string) => {
+    return db.list.findMany({
+        where: {
+            userId,
+            title: {
+                contains: searchString,
+                mode: "insensitive",
+            },
+        },
+        select: {
+            id: true,
+            title: true,
+            content: true,
+        },
+    })
+}
+
 const getList = (id: string) => {
     return db.list.findUnique({
         where: {
@@ -60,6 +77,7 @@ export default {
     createList,
     getList,
     getAllLists,
+    searchListbyTitle,
     updateList,
     deleteList,
 }

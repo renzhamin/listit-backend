@@ -1,9 +1,8 @@
 import bcrypt from "bcrypt"
-import { randomUUID } from "crypto"
+import { ObjectId } from "bson"
 import { addRefreshToken } from "../../db/tokens"
 import { findUserByUsernameOrEmail } from "../../db/users"
 import { genAccessToken, genRefreshToken } from "../../utils/genToken"
-import { ObjectId } from "bson"
 
 export const login = async (req, res) => {
     try {

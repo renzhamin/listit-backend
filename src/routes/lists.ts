@@ -6,6 +6,11 @@ const router = express.Router()
 
 router.get("/lists", verifyAccessToken, listController.getAllLists)
 router.get("/list/:listId", verifyAccessToken, listController.getList)
+router.get(
+    "/list/search/:searchString",
+    verifyAccessToken,
+    listController.searchListByTitle
+)
 
 router.post("/list", verifyAccessToken, listController.createList)
 router.delete("/list/:listId", verifyAccessToken, listController.deleteList)
