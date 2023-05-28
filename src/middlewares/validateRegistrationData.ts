@@ -15,7 +15,7 @@ export const validateRegistrationData = async (req, res, next) => {
     if (user) {
         let error = "Email already exits"
         if (user.email !== email) error = "Username already exits"
-        return res.json({ error })
+        return res.status(400).json({ error })
     }
 
     req.user = {
