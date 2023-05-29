@@ -21,5 +21,11 @@ export const refreshAccessToken = async (req, res) => {
     })
 
     const accessToken = genAccessToken(user)
-    return res.json({ accessToken })
+
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 5,
+    })
+
+    return res.status(200).json({ msg: "Successfully received accessToken" })
 }

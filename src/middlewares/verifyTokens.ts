@@ -1,10 +1,10 @@
 import { validateAccessToken, validateRefreshToken } from "../utils/verifyToken"
 
 export const verifyAccessToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"]
-    const token = authHeader && authHeader.split(" ")[1]
-    if (token == null) return res.sendStatus(401)
-    const user = validateAccessToken(token)
+    const accessToken = req.cookies.accessToken
+    if (!accessToken)
+        return res.status(401).json({ tokenError: "No access token" })
+    const user = validateAccessToken(accessToken)
 
     if (user.tokenError)
         return res.status(401).json({
@@ -19,12 +19,15 @@ export const verifyAccessToken = (req, res, next) => {
 export const verifyRefreshToken = async (req, res, next) => {
     const refreshToken = req.cookies.refreshToken
     if (!refreshToken)
-        return res.status(401).json({ error: "No refresh token" })
+        return res.status(401).json({ tokenError: "No refresh token" })
 
     const user = await validateRefreshToken(refreshToken)
 
-    if (!user) return res.status(401).json({ error: "Invalid Refresh Token" })
-    req.user = user
+    if (!user) {
+        res.clearCookie("refreshToken")
+        return res.status(401).json({ tokenError: "Invalid Refresh Token" })
+    }
 
+    req.user = user
     return next()
 }

@@ -28,7 +28,11 @@ export const login = async (req, res) => {
 
         await addRefreshToken(tokenId, user.id, refreshToken)
             .then(() => {
-                return res.json({ accessToken })
+                res.cookie("accessToken", accessToken, {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 5,
+                })
+                res.json({ msg: "Login Successful" })
             })
             .catch((e) => {
                 console.log(e)
