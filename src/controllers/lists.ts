@@ -3,14 +3,14 @@ import listService from "../db/lists"
 export default {
     createList: async function (req, res) {
         const { id: userId } = req.user
-        const { title, content } = req.body
+        const list = req.body
 
         await listService
-            .createList(userId, title, content)
+            .createList(userId, list)
             .then(() => {
                 return res.sendStatus(200)
             })
-            .catch((e) => {
+            .catch(() => {
                 return res.json({ error: "Could not create list" })
             })
     },
@@ -33,7 +33,9 @@ export default {
     },
 
     getList: async function (req, res) {
-        const list = await listService.getList(req.params.listId)
+        const { id: userId } = req.user
+
+        const list = await listService.getList(userId, req.params.listId)
 
         if (list) {
             return res.json({ list })
@@ -43,15 +45,18 @@ export default {
     },
 
     updateList: async function (req, res) {
-        const { title, content } = req.body
+        const list = req.body
+        const { id: userId } = req.user
         const { listId } = req.params
         await listService
-            .updateList(listId, title, content)
+            .updateList(userId, listId, list)
             .then(() => {
                 return res.sendStatus(200)
             })
-            .catch(() => {
-                return res.status(400).json({ error: "Could not update list" })
+            .catch((e) => {
+                return res
+                    .status(400)
+                    .json({ error: "Could not update list", dbg: e })
             })
     },
 

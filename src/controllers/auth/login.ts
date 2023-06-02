@@ -35,7 +35,6 @@ export const login = async (req, res) => {
                 res.json({ msg: "Login Successful" })
             })
             .catch((e) => {
-                console.log(e)
                 return res
                     .status(404)
                     .json({ error: "Error adding refreshtoken" })

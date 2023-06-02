@@ -1,11 +1,10 @@
 import db from "./connect"
 
-const createList = (userId: string, title: string, content) => {
+const createList = (userId: string, list) => {
     return db.list.create({
         data: {
             userId,
-            title,
-            content,
+            ...list,
         },
     })
 }
@@ -15,10 +14,17 @@ const getAllLists = (userId: string) => {
         where: {
             userId,
         },
+    })
+}
+
+const getAllListTitles = (userId: string) => {
+    return db.list.findMany({
+        where: {
+            userId,
+        },
         select: {
             id: true,
             title: true,
-            content: true,
         },
     })
 }
@@ -40,27 +46,21 @@ const searchListbyTitle = (userId: string, searchString: string) => {
     })
 }
 
-const getList = (id: string) => {
-    return db.list.findUnique({
+const getList = (userId: string, id: string) => {
+    return db.list.findFirst({
         where: {
-            id,
-        },
-        select: {
-            id: true,
-            title: true,
-            content: true,
+            AND: [{ id }, { OR: [{ userId }, { isPublic: true }] }],
         },
     })
 }
 
-const updateList = (id: string, title: string, content) => {
-    return db.list.update({
+const updateList = (userId: string, id: string, list: any) => {
+    return db.list.updateMany({
         where: {
-            id,
+            AND: [{ userId }, { id }],
         },
         data: {
-            title,
-            content,
+            ...list,
         },
     })
 }
@@ -77,6 +77,7 @@ export default {
     createList,
     getList,
     getAllLists,
+    getAllListTitles,
     searchListbyTitle,
     updateList,
     deleteList,
