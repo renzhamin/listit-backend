@@ -4,7 +4,8 @@ const createList = (userId: string, list) => {
     return db.list.create({
         data: {
             userId,
-            ...list,
+            title: list.title,
+            content: list.content,
         },
     })
 }

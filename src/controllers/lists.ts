@@ -10,8 +10,10 @@ export default {
             .then(() => {
                 return res.sendStatus(200)
             })
-            .catch(() => {
-                return res.json({ error: "Could not create list" })
+            .catch((e) => {
+                console.log(list)
+                console.log(e)
+                return res.status(400).json({ error: "Could not create list" })
             })
     },
 
