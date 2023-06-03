@@ -62,9 +62,8 @@ export default {
                 return res.sendStatus(200)
             })
             .catch((e) => {
-                return res
-                    .status(400)
-                    .json({ error: "Could not update list", dbg: e })
+                console.log(e)
+                return res.status(400).json({ error: "Could not update list" })
             })
     },
 

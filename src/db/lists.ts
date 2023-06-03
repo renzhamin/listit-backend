@@ -32,7 +32,6 @@ const getAllListTitles = (userId: string) => {
 const searchListbyTitle = (userId: string, searchString: string) => {
     return db.list.findMany({
         where: {
-            userId,
             title: {
                 contains: searchString,
                 mode: "insensitive",
@@ -40,6 +39,7 @@ const searchListbyTitle = (userId: string, searchString: string) => {
         },
         select: {
             id: true,
+            userId: true,
             title: true,
             content: true,
         },
@@ -60,7 +60,8 @@ const updateList = (userId: string, id: string, list: any) => {
             AND: [{ userId }, { id }],
         },
         data: {
-            ...list,
+            title: list.title,
+            content: list.content,
         },
     })
 }

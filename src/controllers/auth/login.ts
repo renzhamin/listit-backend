@@ -26,6 +26,10 @@ export const login = async (req, res) => {
             maxAge: 24 * 60 * 60 * 30 * 1000,
         })
 
+        res.cookie("userId", user.id, {
+            maxAge: 24 * 60 * 60 * 30 * 1000,
+        })
+
         await addRefreshToken(tokenId, user.id, refreshToken)
             .then(() => {
                 res.cookie("accessToken", accessToken, {

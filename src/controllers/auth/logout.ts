@@ -6,6 +6,8 @@ export const logout = async (req, res) => {
     if (!refreshToken)
         return res.status(401).json({ error: "No Refresh Token" })
     res.clearCookie("refreshToken")
+    res.clearCookie("userId")
+
     const user: any = jwt.decode(refreshToken)
 
     if (user) {
@@ -21,6 +23,8 @@ export const logout_all = async (req, res) => {
     if (!refreshToken)
         return res.status(401).json({ error: "No Refresh Token" })
     res.clearCookie("refreshToken")
+    res.clearCookie("userId")
+
     const user: any = jwt.decode(refreshToken)
 
     if (user) {

@@ -30,7 +30,7 @@ model RefreshToken {
 model List {
     id       String  @id @default(auto()) @map("_id") @db.ObjectId
     userId   String  @db.ObjectId
-    isPublic Boolean @default(false)
+    isPublic Boolean @default(true)
     title    String
     content  Json
     user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)

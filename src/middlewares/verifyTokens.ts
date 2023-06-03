@@ -25,6 +25,7 @@ export const verifyRefreshToken = async (req, res, next) => {
 
     if (!user) {
         res.clearCookie("refreshToken")
+        res.clearCookie("userId")
         return res.status(401).json({ tokenError: "Invalid Refresh Token" })
     }
 
