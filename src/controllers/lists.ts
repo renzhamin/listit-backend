@@ -23,6 +23,14 @@ export default {
         }
     },
 
+    getAllListTitles: async function (req, res) {
+        const lists = await listService.getAllListTitles(req.user.id)
+
+        if (lists) {
+            return res.json({ lists })
+        }
+    },
+
     searchListByTitle: async function (req, res) {
         const { userId } = req.user
         const searchString = req.params.searchString

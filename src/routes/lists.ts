@@ -4,7 +4,8 @@ import { verifyAccessToken } from "../middlewares/verifyTokens"
 
 const router = express.Router()
 
-router.get("/lists", verifyAccessToken, listController.getAllLists)
+/* router.get("/lists", verifyAccessToken, listController.getAllLists) */
+router.get("/lists", verifyAccessToken, listController.getAllListTitles)
 router.get("/list/:listId", verifyAccessToken, listController.getList)
 router.get(
     "/list/search/:searchString",
